@@ -18,7 +18,7 @@ awscp.config = {
 ### queue
 SQS Wrapper for job queues.
 
-```
+```js
 var broker = awscp.queue({
   prefix: "" // key prefix for sqs queues
 })
@@ -58,11 +58,12 @@ broker.handler({
   // handle msg
   next(); // no need to remove msg explicitly, if you return an error to next, message gets re scheduled, otherwise it's deleted
 });
+```
 
 ### lock
 Distributed locks over DynamoDB
 
-```
+```js
 var lock = awscp.queue({
   prefix: "" // key prefix for locks,
   table: "lock_table" // DynamoDB table for locks. Should have a hash index on "LockKey" column.
