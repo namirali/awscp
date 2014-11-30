@@ -26,15 +26,15 @@ var broker = awscp.queue({
 // Push job
 broker.push({
   queue: "fetch-something", // sqs queue name
-  delay: 0, // optional delay in seconds
+  delay: 0, // optional delay in ms module syntax ("10s", "5m" etc)
   data: {} // payload
 }, callback)
 
 // Pop a single Job
 broker.pop({
   queue: "fetch-something",
-  ttl: 60, // visibility timeout in seconds, if the job is not removed during this time, it gets requeued
-  wait: 0 // lonk polling timeout in seconds. client will wait this long until a job is available
+  ttl: 60, // visibility timeout in ms module syntax ("10s", "5m" etc), if the job is not removed during this time, it gets requeued
+  wait: 0 // lonk polling timeout in ms module syntax ("10s", "5m" etc). client will wait this long until a job is available
 }, callback(function(err, msg) {
   console.log(msg.data) // get the payload specified in push
   msg.remove(callback) // remove job from queue
