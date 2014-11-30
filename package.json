@@ -1,6 +1,6 @@
 {
   "name": "awscp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AWS utilities for distributed Node.JS applications",
   "main": "index.js",
   "repository": {
