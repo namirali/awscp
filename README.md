@@ -53,7 +53,8 @@ broker.handler({
   queue: 'fetch-something',
   ttl: 60,
   wait: 0,
-  concurrency: 1 // process n messages within the same batch
+  concurrency: 1, // process n messages within the same batch
+  runDelay: null // wait time between fetch runs
 }, function(msg, next) {
   // handle msg
   next(); // no need to remove msg explicitly, if you return an error to next, message gets re scheduled, otherwise it's deleted
