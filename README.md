@@ -80,6 +80,34 @@ lock.acquire(
 );
 ```
 
+### cache
+Elasticache wrapper
+
+```js
+var cache = awscp.cache({
+  prefix: "" // key prefix,
+  discovery: { // passed directly to ecad (https://www.npmjs.org/ecad)
+    endpoints: ['my-elasticache-cluster-hostname1:11211', 'my-elasticache-cluster-hostname2:11211']
+  },
+  hostnames: [...memcached node hostnames...], // either provide discovery or hostnames field
+  memcached: {
+    // passed directly to node-memcached client (https://www.npmjs.org/memcached)
+  }
+})
+
+// Proxies memcached commands to underlying memcached client
+// Only difference is that you should use ms module syntax ("10s", "5m" etc) or milliseconds for cache durations. Precision is 1 second though.
+cache.set, cache.get, cache.del ...
+
+// Helper
+cache.auto(key, function miss(next) {
+  // item not cached
+  next(null, "some data");
+}, function hit(err, data) {
+  // data gets passed here either from cache or the miss function
+}, ttl); //ttl is in ms module syntax ("10s", "5m" etc)
+```
+
 ##author
 
 Ekin Koc
