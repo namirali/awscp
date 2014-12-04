@@ -108,6 +108,28 @@ cache.auto(key, function miss(next) {
 }, ttl); //ttl is in ms module syntax ("10s", "5m" etc)
 ```
 
+### ratelimit
+Rate limiting over cache
+
+```js
+var cache = awscp.cache(...);
+var limiter = awscp.ratelimit({
+  cache: cache
+});
+
+limiter.hit({
+  key: "some-operation",
+  window: "10s", // limit window
+  limit: 5 // limit per window
+}, function(err, hit) {
+  if (!hit) {
+    // this operation has been performed more than 5 times in 10 seconds
+  } else {
+    ...
+  }
+})
+```
+
 ##author
 
 Ekin Koc
