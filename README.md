@@ -20,14 +20,16 @@ SQS Wrapper for job queues.
 
 ```js
 var broker = awscp.queue({
-  prefix: "" // key prefix for sqs queues
+  prefix: "", // key prefix for sqs queues
+  cache: awscp.cache(...) //optional, for unique push calls
 })
 
 // Push job
 broker.push({
   queue: "fetch-something", // sqs queue name
   delay: 0, // optional delay in ms module syntax ("10s", "5m" etc)
-  data: {} // payload
+  data: {}, // payload
+  unique: "somekey" // if you provide a cache instance during setup, the broker will filter out duplicate pushes according to this key, for the period specified in delay key.
 }, callback)
 
 // Pop a single Job
