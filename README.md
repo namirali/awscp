@@ -80,6 +80,56 @@ lock.acquire(
 );
 ```
 
+### cache
+Elasticache wrapper
+
+```js
+var cache = awscp.cache({
+  prefix: "" // key prefix,
+  discovery: { // passed directly to ecad (https://www.npmjs.org/ecad)
+    endpoints: ['my-elasticache-cluster-hostname1:11211', 'my-elasticache-cluster-hostname2:11211']
+  },
+  hostnames: [...memcached node hostnames...], // either provide discovery or hostnames field
+  memcached: {
+    // passed directly to node-memcached client (https://www.npmjs.org/memcached)
+  }
+})
+
+// Proxies memcached commands to underlying memcached client
+// Only difference is that you should use ms module syntax ("10s", "5m" etc) or milliseconds for cache durations. Precision is 1 second though.
+cache.set, cache.get, cache.del ...
+
+// Helper
+cache.auto(key, function miss(next) {
+  // item not cached
+  next(null, "some data");
+}, function hit(err, data) {
+  // data gets passed here either from cache or the miss function
+}, ttl); //ttl is in ms module syntax ("10s", "5m" etc)
+```
+
+### ratelimit
+Rate limiting over cache
+
+```js
+var cache = awscp.cache(...);
+var limiter = awscp.ratelimit({
+  cache: cache
+});
+
+limiter.hit({
+  key: "some-operation",
+  window: "10s", // limit window
+  limit: 5 // limit per window
+}, function(err, hit) {
+  if (!hit) {
+    // this operation has been performed more than 5 times in 10 seconds
+  } else {
+    ...
+  }
+})
+```
+
 ##author
 
 Ekin Koc
