@@ -117,6 +117,7 @@ var limiter = awscp.ratelimit({
   cache: cache
 });
 
+// Increase rate limiter state for current window
 limiter.hit({
   key: "some-operation",
   window: "10s", // limit window
@@ -127,6 +128,15 @@ limiter.hit({
   } else {
     ...
   }
+})
+
+// Check current status
+limiter.peek({
+  key: "some-operation",
+  window: "10s", // limit window
+  limit: 5 // limit per window
+}, function(err, count) {
+  // count for current window
 })
 ```
 
