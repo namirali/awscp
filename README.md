@@ -67,7 +67,7 @@ broker.handler({
 Distributed locks over DynamoDB
 
 ```js
-var lock = awscp.queue({
+var lock = awscp.lock({
   prefix: "" // key prefix for locks,
   table: "lock_table" // DynamoDB table for locks. Should have a hash index on "LockKey" column.
 })
@@ -141,6 +141,20 @@ limiter.peek({
   // count for current window
 })
 ```
+
+### lambda
+Lambda wrapper
+
+```js
+var lambda = awscp.lambda();
+
+//invoke functions
+lambda.invoke({
+  functionName:'some-function', // function name of lambda function
+  data: {} // payload
+}, function(err){
+  
+})
 
 ##author
 

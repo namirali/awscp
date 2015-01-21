@@ -24,7 +24,7 @@ AWSCP.prototype.sec = function(val) {
   return Math.round(ms(String(val)) / 1000);
 };
 
-["queue", "lock", "cache", "ratelimit"].forEach(function (mod) {
+["queue", "lock", "cache", "ratelimit", "lambda"].forEach(function (mod) {
   AWSCP.prototype[mod] = function(options) {
     return require("./lib/" + mod)(this, options);
   };
